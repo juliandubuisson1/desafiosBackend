@@ -69,32 +69,14 @@ class ProductManager {
     }
 
     updateProduct = async (id, ...producto) => {
-        await this.getProductsById(id);
+        await this.deleteProduct(id);
         let productUpdate = await this.readProducts();
-        let productoMod = [{id, ...producto}, ...productUpdate]
+        let productoMod = [{...producto, id,}, ...productUpdate]
         await fs.writeFile(PATH, JSON.stringify(productoMod))
     };
 }
 
 const productos = new ProductManager()
-/* productos.addProduct('Titulo1', 'Description1', 1000, 'Img1', '123abc', 5)
-productos.addProduct('Titulo2', 'Description2', 2000, 'Img2', '456abc', 6) */
-
-/* productos.getProdcuts() */
-
-/* productos.getProductsById(2) */
-
-/* productos.deleteProduct() */
-
-/* productos.updateProduct({
-    title: 'Titulo2',
-    description:"Description2",
-    price: 4500,
-    thumbnail:'Img2', 
-    code:'456abc',
-    stock: 6,
-    id:2
-}) */
 
 //LLAMADA AL ARRAY VACIO
 
@@ -102,35 +84,34 @@ console.log(productos.getProdcuts());
 
 //AGREGAR PRODUCTOS 
 
-productos.addProduct('titulo1', 'descripcion1', 1500, 'imagen1', 'abc123', 5)
-productos.addProduct('titulo2', 'descripcion2', 1500, 'imagen2', 'abc124',4)
-productos.addProduct('titulo3', 'descripcion3', 3500, 'imagen3', 'abc789', 3)
-productos.addProduct('titulo4', 'descripcion4', 4500, 'imagen4', 'abc910',4)
+productos.addProduct('producto prueba', 'Este es un producto prueba', 200, 'Sin imagen', 'abc123', 25)
 
-//Validacion de code repetido
-productos.addProduct('titulo3', 'descripcion3', 3500, 'imagen3', 'abc789', 3)
+//GETPRODUCTS
 
-//BUSQUEDA DE ID
-
-productos.getProductsById(2)
+console.log(productos.getProdcuts());
 
 //BUSQUEDA DE ID NO ENCONTRADO
 
 productos.getProductsById(8);
+
+//BUSQUEDA DE ID
+
+productos.getProductsById(1)
+
+//ACTUALIAR PRODUCTO
+
+productos.updateProduct({
+    title: 'producto prueba',
+    description:'Este es un producto prueba',
+    price: 300,
+    thumbnail:'Sin imagen', 
+    code:'abc123',
+    stock: 25,
+    id:2
+})
 
 
 //ELIMINAR PRODUCTO
 
 productos.deleteProduct()
 
-//ACTUALIAR PRODUCTO
-
-productos.updateProduct({
-    title: 'Titulo2',
-    description:"Description2",
-    price: 4500,
-    thumbnail:'Img2', 
-    code:'456abc',
-    stock: 6,
-    id:2
-})
