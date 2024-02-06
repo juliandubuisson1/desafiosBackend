@@ -1,32 +1,39 @@
+import fs from 'fs'
+const PATH = "./productos.json"
+
 class ProductManager {
     constructor (){
-        this.products = [];
+        this.PATH = [];
+        this.productos = []
     }
 
     static id = 0
 
-    addProduct (title, description, price, thumbnail, code, stock) {
+    addProduct = async (title, description, price, thumbnail, code, stock) => {
 
-        for(let i = 0; i < this.products.length; i++){
-            if (this.products [i].code === code){
+        for(let i = 0; i < this.PATH.length; i++){
+            if (this.PATH [i].code === code){
                 console.log(`El codigo ${code}, esta repetido`);
                 break
             }
         }
 
-
+        ProductManager.id++
         const newProduct = {
             title, 
             description, 
             price, 
             thumbnail, 
             code, 
-            stock        
+            stock,
+            id: ProductManager.id        
         }
+
+        await fs.writeFile(this.PATH, JSON.stringify(this.productos))
 
         if(!Object.values (newProduct).includes(undefined)){
             ProductManager.id++;
-            this.products.push({
+            this.PATH.push({
                 ...newProduct,
                 id:ProductManager.id 
             });
@@ -36,11 +43,11 @@ class ProductManager {
     }
 
     getProduct(){
-        return this.products;
+        return this.PATH;
     }
 
     idProduct (id) {
-        return this.products.find((producto) => producto.id === id)
+        return this.PATH.find((producto) => producto.id === id)
     }
 
     getProductById(id){
